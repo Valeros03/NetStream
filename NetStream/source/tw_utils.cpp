@@ -4,6 +4,7 @@
 #include <ini_file_processor.h>
 
 #include "common.h"
+#include "utils.h"
 #include "tw_utils.h"
 #include "lootkit.h"
 

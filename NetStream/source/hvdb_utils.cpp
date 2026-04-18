@@ -4,6 +4,7 @@
 #include <ini_file_processor.h>
 
 #include "common.h"
+#include "utils.h"
 #include "yt_utils.h"
 #include "hvdb_utils.h"
 #include "hvdb.h"
