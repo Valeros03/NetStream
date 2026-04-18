@@ -62,7 +62,25 @@ extern "C" {
 	
 	void user_malloc_init(void)
 	{
+		int32_t ret = -1, load_res;
 
+		ScePafInit init_param;
+		SceSysmoduleOpt sysmodule_opt;
+
+		init_param.global_heap_size = 0x03000000;
+		init_param.cdlg_mode = 0;
+		init_param.global_heap_alignment = 0;
+		init_param.global_heap_disable_assert_on_alloc_failure = 0;
+
+		sysmodule_opt.flags = 0;
+		sysmodule_opt.result = &load_res;
+
+		ret = sceSysmoduleLoadModuleInternalWithArg(SCE_SYSMODULE_INTERNAL_PAF, sizeof(init_param), &init_param, &sysmodule_opt);
+
+		if (ret < 0) {
+			sceClibPrintf("[PAF PRX] Loader: 0x%x\n", ret);
+			sceClibPrintf("[PAF PRX] Loader result: 0x%x\n", load_res);
+		}
 	}
 
 	void user_malloc_finalize(void)
@@ -171,28 +189,4 @@ void user_delete_array(void *ptr)
 void user_delete_array(void *ptr, const std::nothrow_t& x)
 {
 	sce_paf_free(ptr);
-}
-
-__attribute__((constructor(101))) void preloadPaf()
-{
-	int32_t ret = -1, load_res;
-
-	ScePafInit init_param;
-	SceSysmoduleOpt sysmodule_opt;
-
-	init_param.global_heap_size = 0x03000000;
-	init_param.cdlg_mode = 0;
-	init_param.global_heap_alignment = 0;
-	init_param.global_heap_disable_assert_on_alloc_failure = 0;
-
-	sysmodule_opt.flags = 0;
-	sysmodule_opt.result = &load_res;
-
-	ret = sceSysmoduleLoadModuleInternalWithArg(SCE_SYSMODULE_INTERNAL_PAF, sizeof(init_param), &init_param, &sysmodule_opt);
-	//ret = sceSysmoduleLoadModuleInternal(SCE_SYSMODULE_INTERNAL_PAF);
-
-	if (ret < 0) {
-		sceClibPrintf("[PAF PRX] Loader: 0x%x\n", ret);
-		sceClibPrintf("[PAF PRX] Loader result: 0x%x\n", load_res);
-	}
 }
