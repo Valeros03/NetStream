@@ -121,6 +121,10 @@ namespace utils
 	bool IsAudioSupported(uint32_t ch, uint32_t srate);
 
 	bool IsLocalPath(const char *path);
+
+	void *SafeAlloc(size_t size);
+	void SafeFree(void *ptr);
+	void *SafeRealloc(void *ptr, size_t size);
 };
 
 

@@ -105,6 +105,13 @@ extern "C" {
 
 	void *user_realloc(void *ptr, size_t size)
 	{
+		if (!ptr) {
+			return sce_paf_malloc(size);
+		}
+		if (size == 0) {
+			sce_paf_free(ptr);
+			return NULL;
+		}
 		return sce_paf_realloc(ptr, size);
 	}
 

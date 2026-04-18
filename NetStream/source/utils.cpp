@@ -32,7 +32,7 @@ static size_t CurlDownloadCore(char *buffer, size_t size, size_t nitems, void *u
 
 	if (toCopy != 0)
 	{
-		obj->m_buf = sce_paf_realloc(obj->m_buf, obj->m_pos + toCopy);
+		obj->m_buf = utils::SafeRealloc(obj->m_buf, obj->m_pos + toCopy);
 		sce_paf_memcpy(static_cast<char *>(obj->m_buf) + obj->m_pos, buffer, toCopy);
 		obj->m_pos += toCopy;
 	}
@@ -297,6 +297,30 @@ bool utils::DoGETRequest(const char *url, void **ppRespBuf, size_t *pRespBufSize
 	*pRespBufSize = ctx.m_pos;
 
 	return true;
+}
+
+void *utils::SafeAlloc(size_t size)
+{
+	return sce_paf_malloc(size);
+}
+
+void utils::SafeFree(void *ptr)
+{
+	if (ptr) {
+		sce_paf_free(ptr);
+	}
+}
+
+void *utils::SafeRealloc(void *ptr, size_t size)
+{
+	if (!ptr) {
+		return sce_paf_malloc(size);
+	}
+	if (size == 0) {
+		sce_paf_free(ptr);
+		return NULL;
+	}
+	return sce_paf_realloc(ptr, size);
 }
 
 bool utils::DoPOSTRequest(const char *url, void *pBuf, size_t bufSize, const char **ppHeaders, uint32_t headerNum, void **ppRespBuf,

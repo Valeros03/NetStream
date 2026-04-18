@@ -139,8 +139,8 @@ twutils::HistLog::HistLog()
 	char data[SCE_INI_FILE_PROCESSOR_KEY_BUFFER_SIZE];
 	Ini::InitParameter param;
 	Ini::MemAllocator alloc;
-	alloc.allocate = sce_paf_malloc;
-	alloc.deallocate = sce_paf_free;
+	alloc.allocate = (void*(*)(uint32_t))utils::SafeAlloc;
+	alloc.deallocate = (void(*)(void *))utils::SafeFree;
 
 	param.workmemSize = SCE_KERNEL_4KiB;
 	param.unk_0x4 = SCE_KERNEL_4KiB;
@@ -170,8 +170,8 @@ twutils::FavLog::FavLog()
 {
 	Ini::InitParameter param;
 	Ini::MemAllocator alloc;
-	alloc.allocate = sce_paf_malloc;
-	alloc.deallocate = sce_paf_free;
+	alloc.allocate = (void*(*)(uint32_t))utils::SafeAlloc;
+	alloc.deallocate = (void(*)(void *))utils::SafeFree;
 
 	param.workmemSize = SCE_KERNEL_4KiB;
 	param.unk_0x4 = SCE_KERNEL_4KiB;
@@ -204,7 +204,7 @@ void twutils::HistLog::Clean()
 
 void twutils::Init()
 {
-	ltkInit(sce_paf_malloc, sce_paf_free, "https://github.com/GrapheneCt/NetStream/raw/main/loot.bin");
+	ltkInit((void*(*)(uint32_t))utils::SafeAlloc, (void(*)(void *))utils::SafeFree, "https://github.com/GrapheneCt/NetStream/raw/main/loot.bin");
 
 	/*
 	LtkItem *ch = NULL;

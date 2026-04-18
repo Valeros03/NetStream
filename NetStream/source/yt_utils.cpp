@@ -170,8 +170,8 @@ ytutils::HistLog::HistLog(uint32_t tus) : Log(tus)
 	char data[SCE_INI_FILE_PROCESSOR_KEY_BUFFER_SIZE];
 	Ini::InitParameter param;
 	Ini::MemAllocator alloc;
-	alloc.allocate = sce_paf_malloc;
-	alloc.deallocate = sce_paf_free;
+	alloc.allocate = (void*(*)(uint32_t))utils::SafeAlloc;
+	alloc.deallocate = (void(*)(void *))utils::SafeFree;
 
 	param.workmemSize = SCE_KERNEL_4KiB;
 	param.unk_0x4 = SCE_KERNEL_4KiB;
@@ -231,8 +231,8 @@ int32_t ytutils::HistLog::UpdateFromTUS()
 	char data[SCE_INI_FILE_PROCESSOR_KEY_BUFFER_SIZE];
 	Ini::InitParameter param;
 	Ini::MemAllocator alloc;
-	alloc.allocate = sce_paf_malloc;
-	alloc.deallocate = sce_paf_free;
+	alloc.allocate = (void*(*)(uint32_t))utils::SafeAlloc;
+	alloc.deallocate = (void(*)(void *))utils::SafeFree;
 
 	param.workmemSize = SCE_KERNEL_4KiB;
 	param.unk_0x4 = SCE_KERNEL_4KiB;
@@ -286,8 +286,8 @@ ytutils::FavLog::FavLog(uint32_t tus) : Log(tus)
 {
 	Ini::InitParameter param;
 	Ini::MemAllocator alloc;
-	alloc.allocate = sce_paf_malloc;
-	alloc.deallocate = sce_paf_free;
+	alloc.allocate = (void*(*)(uint32_t))utils::SafeAlloc;
+	alloc.deallocate = (void(*)(void *))utils::SafeFree;
 
 	param.workmemSize = SCE_KERNEL_4KiB;
 	param.unk_0x4 = SCE_KERNEL_4KiB;
@@ -329,8 +329,8 @@ int32_t ytutils::FavLog::UpdateFromTUS()
 
 	Ini::InitParameter param;
 	Ini::MemAllocator alloc;
-	alloc.allocate = sce_paf_malloc;
-	alloc.deallocate = sce_paf_free;
+	alloc.allocate = (void*(*)(uint32_t))utils::SafeAlloc;
+	alloc.deallocate = (void(*)(void *))utils::SafeFree;
 
 	param.workmemSize = SCE_KERNEL_4KiB;
 	param.unk_0x4 = SCE_KERNEL_4KiB;
@@ -397,7 +397,7 @@ void ytutils::HistLog::Clean()
 
 void ytutils::Init(uint32_t histTUS, uint32_t favTUS)
 {
-	ftInit(sce_paf_malloc, sce_paf_free, sce_paf_realloc, utils::DoGETRequest, utils::DoPOSTRequest);
+	ftInit((FTAllocator)utils::SafeAlloc, (FTDeallocator)utils::SafeFree, (FTReallocator)utils::SafeRealloc, utils::DoGETRequest, utils::DoPOSTRequest);
 
 	if (!s_histLog)
 	{

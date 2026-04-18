@@ -124,7 +124,7 @@ size_t BEAVPlayer::LibLSInterface::DownloadCore(char *buffer, size_t size, size_
 	size_t toCopy = size * nitems;
 
 	if (toCopy != 0) {
-		obj->m_buf = sce_paf_realloc(obj->m_buf, obj->m_pos + toCopy);
+		obj->m_buf = utils::SafeRealloc(obj->m_buf, obj->m_pos + toCopy);
 		sce_paf_memcpy(static_cast<char *>(obj->m_buf) + obj->m_pos, buffer, toCopy);
 		obj->m_pos += toCopy;
 	}
@@ -868,7 +868,7 @@ void BEAVPlayer::PreInit()
 		SCE_DBG_LOG_ERROR("[PreInit] Taihen not loaded");
 	}
 
-	sceBeavCorePlayerMemmanagerSet(sce_paf_malloc, sce_paf_memalign, sce_paf_free);
+	sceBeavCorePlayerMemmanagerSet((void*(*)(uint32_t))utils::SafeAlloc, sce_paf_memalign, (void(*)(void *))utils::SafeFree);
 	sceBeavCorePlayerMemmanagerSetGetFreeSize(GetFreeHeapSize);
 
 	sceBeavCorePlayerLsHttpSetResolveConfig(1000, 3);

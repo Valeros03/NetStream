@@ -54,9 +54,9 @@ void menu::Settings::Init()
 	Plugin::LoadSync(pluginParam);
 
 	sparam.xml_file = g_appPlugin->GetResource()->GetFile(file_netstream_settings, &fsize, &fmime);
-	sparam.alloc_cb = sce_paf_malloc;
-	sparam.free_cb = sce_paf_free;
-	sparam.realloc_cb = sce_paf_realloc;
+	sparam.alloc_cb = (void*(*)(size_t))utils::SafeAlloc;
+	sparam.free_cb = (void(*)(void *))utils::SafeFree;
+	sparam.realloc_cb = (void*(*)(void *, size_t))utils::SafeRealloc;
 	sparam.safemem_offset = 0;
 	sparam.safemem_size = utils::SafememGetSettingsSize();
 

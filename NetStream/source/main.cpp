@@ -250,7 +250,7 @@ int main()
 	new Module("app0:module/libLootkit.suprx");
 	new Module("app0:module/libhvdb.suprx");
 
-	curl_global_memmanager_set_np(sce_paf_malloc, sce_paf_free, sce_paf_realloc);
+	curl_global_memmanager_set_np((curl_allocate_np)utils::SafeAlloc, (curl_free_np)utils::SafeFree, (curl_reallocate_np)utils::SafeRealloc);
 
 	utils::Init();
 
