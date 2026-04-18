@@ -17,8 +17,8 @@ hvdbutils::EntryLog::EntryLog()
 {
 	Ini::InitParameter param;
 	Ini::MemAllocator alloc;
-	alloc.allocate = sce_paf_malloc;
-	alloc.deallocate = sce_paf_free;
+	alloc.allocate = (void*(*)(uint32_t))utils::SafeAlloc;
+	alloc.deallocate = (void(*)(void *))utils::SafeFree;
 
 	param.workmemSize = SCE_KERNEL_4KiB;
 	param.unk_0x4 = SCE_KERNEL_4KiB;
@@ -41,7 +41,7 @@ void hvdbutils::EntryLog::Clean()
 
 void hvdbutils::Init()
 {
-	hvdbInit(sce_paf_malloc, sce_paf_free, NULL);
+	hvdbInit((void*(*)(uint32_t))utils::SafeAlloc, (void(*)(void *))utils::SafeFree, NULL);
 
 	if (!s_entryLog)
 		s_entryLog = new hvdbutils::EntryLog();

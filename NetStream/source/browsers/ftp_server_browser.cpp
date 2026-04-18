@@ -228,7 +228,7 @@ size_t FtpServerBrowser::DownloadCore(char *buffer, size_t size, size_t nitems, 
 
 	if (toCopy != 0)
 	{
-		obj->m_buffer = static_cast<char *>(sce_paf_realloc(obj->m_buffer, obj->m_posInBuf + toCopy));
+		obj->m_buffer = static_cast<char *>(utils::SafeRealloc(obj->m_buffer, obj->m_posInBuf + toCopy));
 		sce_paf_memcpy(obj->m_buffer + obj->m_posInBuf, buffer, toCopy);
 		obj->m_posInBuf += toCopy;
 		return toCopy;
