@@ -28,6 +28,11 @@
 
 extern "C"
 {
+
+	unsigned int sceLibcHeapSize = 64 * 1024 * 1024;
+
+	int sceUserMainThreadStackSize = 2 * 1024 * 1024;
+
 	int sceUserMainThreadPriority = SCE_KERNEL_INDIVIDUAL_QUEUE_HIGHEST_PRIORITY + 20;
 	int sceUserMainThreadCpuAffinityMask = SCE_KERNEL_CPU_MASK_USER_0;
 
