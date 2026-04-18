@@ -2,6 +2,39 @@
 #include <paf.h>
 #include <libsysmodule.h>
 
+#include <stdint.h>
+// 1. Includiamo l'header della VDSuite che contiene la firma ufficiale per il linker Sony!
+#include <vshbridge.h> 
+
+
+extern "C" {
+
+	// 2. I nostri ID magici
+#define SCE_SYSMODULE_INTERNAL_PAF 0x80000016
+#define SCE_SYSMODULE_INTERNAL_BXCE 0x80000013
+#define SCE_SYSMODULE_INTERNAL_INI_FILE_PROCESSOR 0x80000001
+#define SCE_SYSMODULE_INTERNAL_COMMON_GUI_DIALOG 0x80000019
+
+// 3. CREIAMO NOI LA FUNZIONE CHE MANCA AL LINKER!
+// NetStream chiamerà questa credendo sia quella di sistema.
+	int sceSysmoduleLoadModuleInternalWithArg(uint32_t id, uint32_t arg_size, void *arg, void *unk) {
+
+		if (id == SCE_SYSMODULE_INTERNAL_PAF) {
+			int status = 0;
+			// Invece di chiedere il permesso al sistema Sysmodule, carichiamo fisicamente 
+			// il file del motore grafico PAF dalla memoria della PS Vita!
+			// Gli passiamo "arg_size" e "arg", che contengono i famosi 128MB.
+			int res = sceKernelLoadStartModule("vs0:sys/external/libScePaf.suprx", arg_size, arg, 0, (const SceKernelLoadModuleOpt*)0, &status);
+
+			if (res >= 0) {
+				return 0; // Successo assoluto
+			}
+			return res; // Errore di caricamento
+		}
+
+		return -1;
+	}
+}
 extern "C" {
 
 	typedef struct SceSysmoduleOpt {
@@ -147,7 +180,7 @@ __attribute__((constructor(101))) void preloadPaf()
 	ScePafInit init_param;
 	SceSysmoduleOpt sysmodule_opt;
 
-	init_param.global_heap_size = SCE_KERNEL_128MiB;
+	init_param.global_heap_size = 0x03000000;
 	init_param.cdlg_mode = 0;
 	init_param.global_heap_alignment = 0;
 	init_param.global_heap_disable_assert_on_alloc_failure = 0;
@@ -156,6 +189,7 @@ __attribute__((constructor(101))) void preloadPaf()
 	sysmodule_opt.result = &load_res;
 
 	ret = sceSysmoduleLoadModuleInternalWithArg(SCE_SYSMODULE_INTERNAL_PAF, sizeof(init_param), &init_param, &sysmodule_opt);
+	//ret = sceSysmoduleLoadModuleInternal(SCE_SYSMODULE_INTERNAL_PAF);
 
 	if (ret < 0) {
 		sceClibPrintf("[PAF PRX] Loader: 0x%x\n", ret);

@@ -99,6 +99,10 @@
     </Xml>
   </ItemGroup>
   <PropertyGroup Label="Globals">
+<TrackFileAccess>false</TrackFileAccess>
+<SncParallelBuilding>false</SncParallelBuilding>
+<SncParallelRunner></SncParallelRunner>
+<SncParallelBuilding>false</SncParallelBuilding>
     <ProjectGuid>{CA4F859F-6FE6-413C-A24A-44CF552FCE91}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -135,7 +139,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <AdditionalIncludeDirectories>$(SCE_PSP2_SDK_DIR)\target\include\vdsuite\user;$(SCE_PSP2_SDK_DIR)\target\include\vdsuite\common;$(ProjectDir)libs\include;$(ProjectDir)include;$(SCE_PSP2_SDK_DIR)\target\include\vdsuite\user\psp2_compat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStd>Cpp11</CppLanguageStd>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalOptions>--no-standard-libraries </AdditionalOptions>
@@ -160,7 +164,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <AdditionalIncludeDirectories>$(SCE_PSP2_SDK_DIR)\target\include\vdsuite\user;$(SCE_PSP2_SDK_DIR)\target\include\vdsuite\common;$(ProjectDir)libs\include;$(ProjectDir)include;$(SCE_PSP2_SDK_DIR)\target\include\vdsuite\user\psp2_compat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CppLanguageStd>Cpp11</CppLanguageStd>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SCE_PSP2_SDK_DIR)\target\lib\vdsuite;$(ProjectDir)libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -174,7 +178,7 @@
     <Link>
       <DuplicateStripping>true</DuplicateStripping>
       <AdditionalOptions>--no-standard-libraries</AdditionalOptions>
-      <AdditionalDependencies>-ltaihen_stub;-lSceRtcUser_stub;-lSceIpmi_stub;-lSceSysmem_stub;-lSceThreadMgr_stub;-lSceThreadmgrCoredumpTime_stub;-lSceModuleMgr_stub;-lSceProcessMgr_stub;-lSceTouch_stub;-lSceAppMgr_stub;-lSceAppMgrUser_stub;-lSceAppUtil_stub;-lSceAudio_stub;-lSceCtrl_stub;-lSceDisplay_stub;-lScePower_stub;-lSceSysmodule_stub;-lSceRegMgr_stub;-lSceDbg_stub;-lScePafThread_stub;-lScePafStdc_stub;-lScePafToplevel_stub;-lScePafResource_stub;-lScePafWidget_stub;-lScePafMisc_stub;-lScePafCommon_stub;-lScePafGraphics_stub;-lSceLibKernel_stub;-lSceNet_stub;-lSceNetCtl_stub;-lSceAppSettings_stub;-lSceCommonGuiDialog_stub;-lSceCommonDialog_stub;-lSceHttp_stub;-lSceSsl_stub;-lSceIniFileProcessor_stub;-lSceAvPlayerPSVita_stub;-lSceBeavCorePlayer_stub;-lSceDmacmgr_stub;-lSceFiber_stub;-lSceVshBridge_stub;-lSceNpManager_stub;-lSceNpCommon_stub;-lSceNpBasic_stub;-lSceNpTus_stub;-ltaihenUnsafe_stub;-lFourthTube_stub;-lLootkit_stub;-lhvdb_stub;-lcurl_stub;-lfmodstudio_stub;-lfmodngpext_stub;-lsnc;-lPafFileExt;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>"D:\dev\PSVITA\sdk\target\lib\vdsuite\libtaihen_stub.a";-lSceRtcUser_stub;-lSceIpmi_stub;-lSceSysmem_stub;-lSceThreadMgr_stub;-lSceThreadmgrCoredumpTime_stub;-lSceModuleMgr_stub;-lSceProcessMgr_stub;-lSceTouch_stub;-lSceAppMgr_stub;-lSceAppMgrUser_stub;-lSceAppUtil_stub;-lSceAudio_stub;-lSceCtrl_stub;-lSceDisplay_stub;-lScePower_stub;-lSceSysmodule_stub;-lSceRegMgr_stub;-lSceDbg_stub;-lScePafThread_stub;-lScePafStdc_stub;-lScePafToplevel_stub;-lScePafResource_stub;-lScePafWidget_stub;-lScePafMisc_stub;-lScePafCommon_stub;-lScePafGraphics_stub;-lSceLibKernel_stub;-lSceNet_stub;-lSceNetCtl_stub;-lSceAppSettings_stub;-lSceCommonGuiDialog_stub;-lSceCommonDialog_stub;-lSceHttp_stub;-lSceSsl_stub;-lSceIniFileProcessor_stub;-lSceAvPlayerPSVita_stub;-lSceBeavCorePlayer_stub;-lSceDmacmgr_stub;-lSceFiber_stub;-lSceVshBridge_stub;-lSceNpManager_stub;-lSceNpCommon_stub;-lSceNpBasic_stub;-lSceNpTus_stub;-ltaihenUnsafe_stub;-lFourthTube_stub;-lLootkit_stub;-lhvdb_stub;-lcurl_stub;-lfmodstudio_stub;-lfmodngpext_stub;-lsnc;-lPafFileExt;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>call "$(ProjectDir)gen_rco.bat"

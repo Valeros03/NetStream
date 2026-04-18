@@ -18,6 +18,16 @@
 #undef SCE_DBG_LOG_COMPONENT
 #define SCE_DBG_LOG_COMPONENT "[BEAV]"
 
+// --- FIX PER MODULI VIDEO BEAV ---
+#ifndef SCE_SYSMODULE_BEISOBMF
+#define SCE_SYSMODULE_BEISOBMF 0x00000041
+#endif
+
+#ifndef SCE_SYSMODULE_BEMP2SYS
+#define SCE_SYSMODULE_BEMP2SYS 0x00000042
+#endif
+// ---------------------------------
+
 using namespace paf;
 
 CURL *BEAVPlayer::LibLSInterface::s_plCurl = NULL;
